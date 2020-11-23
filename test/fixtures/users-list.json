@@ -1,0 +1,12 @@
+[
+    {
+      "email": "first@example.com",
+      "uuid": "5fc0a65e-c67a-4a15-811e-bd24e8e7ef5f",
+      "last_updated": "2017-04-18T01:30:58.000Z"
+    },
+    {
+      "email": "second@example.com",
+      "uuid": "229b673c-a2c5-4729-84eb-ff30d42ab133",
+      "last_updated": "2017-04-10T01:28:42.000Z"
+    }
+]

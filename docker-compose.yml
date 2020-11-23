@@ -1,0 +1,49 @@
+version: "3.4"
+
+services:
+  ms-nodebootstrap-example:
+    container_name: ms-nodebootstrap-example
+    user: root # avoids ton of volume mounting headaches in dev mode.
+    build:
+      context: .
+      target: build
+    volumes:
+      - ./:/opt/app
+      # @see: http://jdlm.info/articles/2016/03/06/lessons-building-node-app-docker.html#the-node_modules-volume-trick
+      - /opt/app/node_modules
+    ports:
+      - 5501:5501
+    env_file:
+      - ./database.env
+    links:
+      - ms-nodebootstrap-example-db
+    environment:
+      - NODE_ENV=dev
+      - NODE_HOT_RELOAD=1
+      - NODE_LOGGER_GRANULARLEVELS=1
+      - NODE_CONFIG_DISABLE_FILE_WATCH="Y"
+      #- PORT=5501 # this is overriden in shell/start-dev.sh since wait-for.sh compromises it from here
+    # command: nodemon -e js,coffee,jade,handlebars server.js
+    # @see: https://docs.docker.com/compose/startup-order/
+    # command: ["./shell/wait-for.sh", "ms-nodebootstrap-example-db:3306", "--", "./shell/start-dev.sh"]
+    command: ./shell/wait-for.sh ms-nodebootstrap-example-db:3306 -- ./shell/start-dev.sh
+
+  ms-nodebootstrap-example-db:
+    container_name: ms-nodebootstrap-example-db
+    image: mysql:5.7
+    # port mapping not needed for the app, but convenient in debugging
+    # to use some GUI tool (e.g. SequelPro) against the DB, on the host
+    ## ports:
+    ##   - 5306:3306
+    ports:
+      - 3306
+    expose:
+      - 3306
+    env_file:
+      - ./database.env
+    volumes:
+      - ms_nb_example_db_data:/var/lib/mysql
+    restart: always
+
+volumes:
+  ms_nb_example_db_data:
