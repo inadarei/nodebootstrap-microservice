@@ -1,5 +1,5 @@
 # Alpine Linux-based, tiny Node container:
-FROM node:8.11-alpine as base
+FROM node:12-alpine3.9 as base
 
 ADD ./ /opt/app
 WORKDIR /opt/app
@@ -12,7 +12,7 @@ RUN rm -rf node_modules \
 USER node
 
 
-FROM base as release 
+FROM base as release
 
 USER root
 RUN npm install --only=production \
@@ -24,8 +24,7 @@ ENV HOME_DIR=/opt/app \
     NODE_ENV=production \
     PORT=5501
 
-# ENTRYPOINT ["/sbin/tini", "--"]
- ENTRYPOINT ["node", "server.js"]
+ENTRYPOINT ./shell/run-db-migraton.sh && node server.js
 
 
 

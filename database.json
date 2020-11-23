@@ -1,6 +1,7 @@
 {
   "dev": {
     "driver": "mysql",
+    "multipleStatements": true,
     "user": {"ENV": "MYSQL_USER"},
     "password": {"ENV": "MYSQL_PASSWORD"},
     "database": {"ENV": "MYSQL_DATABASE"},
@@ -8,6 +9,23 @@
   },
   "test": {
     "driver": "mysql",
+    "multipleStatements": true,
+    "user": {"ENV": "MYSQL_USER"},
+    "password": {"ENV": "MYSQL_PASSWORD"},
+    "database": {"ENV": "MYSQL_DATABASE"},
+    "host": {"ENV": "MYSQL_HOST"}
+  },
+  "stage": {
+    "driver": "mysql",
+    "multipleStatements": true,
+    "user": {"ENV": "MYSQL_USER"},
+    "password": {"ENV": "MYSQL_PASSWORD"},
+    "database": {"ENV": "MYSQL_DATABASE"},
+    "host": {"ENV": "MYSQL_HOST"}
+  },
+  "production": {
+    "driver": "mysql",
+    "multipleStatements": true,
     "user": {"ENV": "MYSQL_USER"},
     "password": {"ENV": "MYSQL_PASSWORD"},
     "database": {"ENV": "MYSQL_DATABASE"},
@@ -15,6 +33,7 @@
   },  
   "qa-server" : {
     "driver": "mysql",
+    "multipleStatements": true,
     "user": "root",
     "password": {"ENV": "MYSQL_ROOT_PASSWORD"},
     "database": "microservices_demo_qa",

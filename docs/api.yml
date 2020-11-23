@@ -1,0 +1,17 @@
+openapi: 3.0.0
+info:
+  title: Sample OpenAPI
+  description: |
+    API Spec for NodeBootstrap Microservice
+  version: 1.0.1
+servers:
+  - url: http://api.example.com/v1
+    description: Production Server
+paths:
+  /users:
+    get:
+      summary: Get users
+
+      responses:
+        '200':    # success response
+          description: Successful Response
