@@ -46,15 +46,15 @@ install-package-in-container:
 add-dev: install-dev-package-in-container build
 
 .PHONY: install-dev-package-in-container
-install-dev-package-in-container:
+install-dev-package-in-container: start
 	docker-compose -p ${project} exec ${service} npm install -D ${package}
 
 .PHONY: migration-create
-migration-create:
-	docker-compose -p ${project} exec ${service} node_modules/db-migrate/bin/db-migrate create --sql-file
+migration-create: start
+	docker-compose -p ${project} exec ${service} node_modules/db-migrate/bin/db-migrate create ${name} --sql-file
 
 .PHONY: migrate
-migrate:
+migrate: start
 	docker-compose -p ${project} exec ${service} node_modules/db-migrate/bin/db-migrate up -e ${NODE_ENV}
 
 .PHONY: shell
@@ -69,7 +69,7 @@ test-exec:
 	docker-compose -p ${project} exec ${service} npm run test
 
 .PHONY: lint-fix
-lint-fix:
+lint-fix: start
 	docker-compose -p ${project} exec ${service} npm run lint:fix
 
 .PHONY: test-cov
