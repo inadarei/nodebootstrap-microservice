@@ -1,42 +1,43 @@
 {
   "dev": {
-    "driver": "mysql",
+    "driver": "pg",
     "multipleStatements": true,
-    "user": {"ENV": "MYSQL_USER"},
-    "password": {"ENV": "MYSQL_PASSWORD"},
-    "database": {"ENV": "MYSQL_DATABASE"},
-    "host": {"ENV": "MYSQL_HOST"}
+    "user": {"ENV": "POSTGRES_USER"},
+    "password": {"ENV": "POSTGRES_PASSWORD"},
+    "database": {"ENV": "POSTGRES_DB"},
+    "host": {"ENV": "POSTGRES_HOST"}
   },
   "test": {
-    "driver": "mysql",
+    "driver": "pg",
     "multipleStatements": true,
-    "user": {"ENV": "MYSQL_USER"},
-    "password": {"ENV": "MYSQL_PASSWORD"},
-    "database": {"ENV": "MYSQL_DATABASE"},
-    "host": {"ENV": "MYSQL_HOST"}
+    "user": {"ENV": "POSTGRES_USER"},
+    "password": {"ENV": "POSTGRES_PASSWORD"},
+    "database": {"ENV": "POSTGRES_DB"},
+    "host": {"ENV": "POSTGRES_HOST"}
   },
   "stage": {
-    "driver": "mysql",
+    "driver": "pg",
     "multipleStatements": true,
-    "user": {"ENV": "MYSQL_USER"},
-    "password": {"ENV": "MYSQL_PASSWORD"},
-    "database": {"ENV": "MYSQL_DATABASE"},
-    "host": {"ENV": "MYSQL_HOST"}
+    "user": {"ENV": "POSTGRES_USER"},
+    "password": {"ENV": "POSTGRES_PASSWORD"},
+    "database": {"ENV": "POSTGRES_DB"},
+    "host": {"ENV": "POSTGRES_HOST"}
   },
   "production": {
-    "driver": "mysql",
+    "driver": "pg",
     "multipleStatements": true,
-    "user": {"ENV": "MYSQL_USER"},
-    "password": {"ENV": "MYSQL_PASSWORD"},
-    "database": {"ENV": "MYSQL_DATABASE"},
-    "host": {"ENV": "MYSQL_HOST"}
-  },  
+    "user": {"ENV": "POSTGRES_USER"},
+    "password": {"ENV": "POSTGRES_PASSWORD"},
+    "database": {"ENV": "POSTGRES_DB"},
+    "host": {"ENV": "POSTGRES_HOST"}
+  },
   "qa-server" : {
-    "driver": "mysql",
+    "driver": "pg",
     "multipleStatements": true,
     "user": "root",
-    "password": {"ENV": "MYSQL_ROOT_PASSWORD"},
+    "password": {"ENV": "pg_ROOT_PASSWORD"},
     "database": "microservices_demo_qa",
-    "host": {"ENV": "MYSQL_HOST"}
-  }
+    "host": {"ENV": "POSTGRES_HOST"}
+  },
+  "sql-file" : true
 }

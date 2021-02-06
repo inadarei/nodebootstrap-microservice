@@ -6,6 +6,7 @@ env:
   browser: false
 extends: 'eslint:recommended'
 parserOptions:
+  sourceType: module
   ecmaVersion: 8
 plugins:
   - mocha

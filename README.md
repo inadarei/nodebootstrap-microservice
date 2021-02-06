@@ -84,7 +84,7 @@ If you add a number of packages in package.json manually (e.g. on the host),
 you generally want to run `make build` to rebuild the container or run
 `make clean` to stop, rebuild and start.
 
-## Database Migrations (Currently: MySQL)
+## Database Migrations (Currently: PostgreSQL)
 
 ```
 # Create migration:
