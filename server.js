@@ -1,9 +1,9 @@
 // @see: https://gist.github.com/branneman/8048520
-const path = require('path');
-require('app-module-path').addPath(path.join(__dirname,'/lib'));
+import express from 'express';
+import server  from 'nodebootstrap-server-test';
 
-const server = require('nodebootstrap-server')
-    , appConfig = require('./appConfig')
-    , app    = require('express')();
+import appConfig from './appConfig.js';
 
-server.setup(app, appConfig.setup);
+const app = express();
+
+server.setup(app, appConfig);

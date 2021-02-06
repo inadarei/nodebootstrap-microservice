@@ -1,4 +1,4 @@
-INSERT INTO `users` (`id`, `uuid`, `email`, `password`, `salt`, `created`, `last_updated`)
+INSERT INTO "users" ("id", "uuid", "email", "password", "salt", "created", "last_updated")
 VALUES
 	(1, '5fc0a65e-c67a-4a15-811e-bd24e8e7ef5f', 'first@example.com', '', '', '2017-03-20 01:28:20', '2017-04-18 01:30:58'),
 	(2, '229b673c-a2c5-4729-84eb-ff30d42ab133', 'second@example.com', '', '', '2017-04-10 01:28:42', '2017-04-10 01:28:42'),

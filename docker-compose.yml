@@ -26,19 +26,19 @@ services:
     # command: nodemon -e js,coffee,jade,handlebars server.js
     # @see: https://docs.docker.com/compose/startup-order/
     # command: ["./shell/wait-for.sh", "ms-nodebootstrap-example-db:3306", "--", "./shell/start-dev.sh"]
-    command: ./shell/wait-for.sh ms-nodebootstrap-example-db:3306 -- ./shell/start-dev.sh
+    command: ./shell/wait-for.sh ms-nodebootstrap-example-db:5432 -- ./shell/start-dev.sh
 
   ms-nodebootstrap-example-db:
     container_name: ms-nodebootstrap-example-db
-    image: mysql:5.7
+    image: postgres:12-alpine
     # port mapping not needed for the app, but convenient in debugging
-    # to use some GUI tool (e.g. SequelPro) against the DB, on the host
+    # to use some GUI tool (e.g. DataGrip) against the DB, on the host
     ## ports:
-    ##   - 5306:3306
+    ##   - 5432:5432
     ports:
-      - 3306
+      - 5432
     expose:
-      - 3306
+      - 5432
     env_file:
       - ./database.env
     volumes:

@@ -1,1 +1,1 @@
-TRUNCATE TABLE `users`;
+TRUNCATE "users";
