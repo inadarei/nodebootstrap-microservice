@@ -5,3 +5,5 @@ db:
   host: MYSQL_HOST
   port: MYSQL_PORT
   connectionLimit: MYSQL_CONNECTION_LIMIT
+app:
+  port: PORT
