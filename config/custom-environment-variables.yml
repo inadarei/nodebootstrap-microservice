@@ -3,4 +3,5 @@ db:
   password: MYSQL_PASSWORD
   database: MYSQL_DATABASE
   host: MYSQL_HOST
+  port: MYSQL_PORT
   connectionLimit: MYSQL_CONNECTION_LIMIT
