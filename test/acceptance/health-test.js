@@ -17,6 +17,10 @@ describe('health endpoint', () => {
     });
   });
 
+  afterEach(function () {
+    app.http_server.close();
+  });
+
   // Note: depends on the usersModel stub.
   it('GET /health returns proper data', (done) =>  {
     request(app)

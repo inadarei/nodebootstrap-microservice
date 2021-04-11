@@ -18,6 +18,7 @@ describe('users endpoint', () => {
   });
 
   afterEach(function () {
+    app.http_server.close();
   });
 
   before(() => {

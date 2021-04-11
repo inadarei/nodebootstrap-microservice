@@ -11,7 +11,7 @@ describe('home document', () => {
   });
 
   afterEach(function () {
-
+    app.http_server.close();
   });
 
   it('responds to / with a 200 OK', (done) => {
