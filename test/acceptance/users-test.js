@@ -57,7 +57,7 @@ describe('users endpoint', () => {
       .end(done);
   });
 
-  it('POST /users validates properly', (done) =>  {
+  it('POST /users fails validation with bad input', (done) =>  {
     request(app)
       .post('/users')
       .expect('Content-Type', /application\/json.*/)
@@ -66,6 +66,16 @@ describe('users endpoint', () => {
         const payload = response.body;
         assert.equal(payload.errors[0], "email must be provided");
       })
+      .end(done);
+  });
+
+  it('POST /users passes validation with good input', (done) =>  {
+    request(app)
+      .post('/users')
+      .send({email: 'john@example.com', password: 'abc12def'})
+      .set('Accept', 'application/json')      
+      .expect('Content-Type', /application\/json.*/)
+      .expect(200)
       .end(done);
   });
 });
