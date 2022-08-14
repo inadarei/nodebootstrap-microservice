@@ -30,7 +30,7 @@ services:
 
   ms-nodebootstrap-example-db:
     container_name: ms-nodebootstrap-example-db
-    image: mysql:5.7
+    image: mysql:8
     # port mapping not needed for the app, but convenient in debugging
     # to use some GUI tool (e.g. SequelPro) against the DB, on the host
     ## ports:
