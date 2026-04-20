@@ -12,6 +12,7 @@ describe('health endpoint', () => {
 
   beforeEach((done) => {
     app = server.express();
+    console.log(app);
     server.beforeEach(app, function() {
       done();
     });

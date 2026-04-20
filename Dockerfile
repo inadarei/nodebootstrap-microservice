@@ -1,5 +1,5 @@
 # Alpine Linux-based, tiny Node container:
-FROM node:18-alpine as base
+FROM node:24-alpine as base
 
 ADD ./ /opt/app
 WORKDIR /opt/app
