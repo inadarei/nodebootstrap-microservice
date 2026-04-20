@@ -11,6 +11,12 @@ COMMIT_HASH = $(shell git rev-parse --verify HEAD 2>/dev/null)
 start: ## Start app + database containers (detached)
 	$(COMPOSE) up -d
 
+.PHONY: dev
+dev: ## Run app locally with node --watch; database in a container (requires host npm install)
+	$(COMPOSE) up -d --wait ms-nodebootstrap-example-db
+	npm run migrate
+	npm start
+
 .PHONY: stop
 stop: ## Stop all containers (preserves data volume)
 	$(COMPOSE) down
