@@ -6,15 +6,15 @@
   "main": "./src/server.js",
   "license": "MIT",
   "engines": {
-    "node": ">=24.0.0"
+    "bun": ">=1.1.0"
   },
   "imports": {
     "#src/*": "./src/*"
   },
   "scripts": {
-    "start": "node --env-file=.env --watch src/server.js",
-    "migrate": "node --env-file=.env src/migrate.js up",
-    "migrate:down": "node --env-file=.env src/migrate.js down",
+    "start": "bun --watch src/server.js",
+    "migrate": "bun src/migrate.js up",
+    "migrate:down": "bun src/migrate.js down",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
@@ -47,7 +47,7 @@
     "vitest": "^4.1.4"
   },
   "simple-git-hooks": {
-    "pre-commit": "npx lint-staged"
+    "pre-commit": "bunx lint-staged"
   },
   "lint-staged": {
     "*.js": [

@@ -12,10 +12,10 @@ start: ## Start app + database containers (detached)
 	$(COMPOSE) up -d
 
 .PHONY: dev
-dev: ## Run app locally with node --watch; database in a container (requires host npm install)
+dev: ## Run app locally with bun --watch; database in a container (requires host bun install)
 	$(COMPOSE) up -d --wait ms-nodebootstrap-example-db
-	npm run migrate
-	npm start
+	bun run migrate
+	bun run start
 
 .PHONY: stop
 stop: ## Stop all containers (preserves data volume)
@@ -64,34 +64,34 @@ db-shell: ## Open a psql shell in the database container
 ##@ Dependencies
 
 .PHONY: install
-install: ## Install deps on the host (uses package-lock.json)
-	npm ci
+install: ## Install deps on the host (uses bun.lock)
+	bun install --frozen-lockfile
 
 .PHONY: add
 add: ## Add a runtime dep in the container (usage: make add package=NAME)
-	$(COMPOSE) exec $(service) npm install --save $(package)
+	$(COMPOSE) exec $(service) bun add $(package)
 
 .PHONY: add-dev
 add-dev: ## Add a dev dep in the container (usage: make add-dev package=NAME)
-	$(COMPOSE) exec $(service) npm install --save-dev $(package)
+	$(COMPOSE) exec $(service) bun add --dev $(package)
 
 .PHONY: audit
-audit: ## Run npm audit
-	npm audit
+audit: ## Run bun audit
+	bun audit
 
 .PHONY: outdated
 outdated: ## Show outdated packages
-	npm outdated || true
+	bun outdated || true
 
 ##@ Database
 
 .PHONY: migrate
 migrate: ## Apply pending migrations
-	$(COMPOSE) exec $(service) npm run migrate
+	$(COMPOSE) exec $(service) bun run migrate
 
 .PHONY: migrate-down
 migrate-down: ## Roll back the most recent migration
-	$(COMPOSE) exec $(service) npm run migrate:down
+	$(COMPOSE) exec $(service) bun run migrate:down
 
 ##@ Quality
 
@@ -100,31 +100,31 @@ test: start test-exec ## Ensure containers are up, then run tests
 
 .PHONY: test-exec
 test-exec: ## Run the test suite (assumes containers running)
-	$(COMPOSE) exec $(service) npm test
+	$(COMPOSE) exec $(service) bun run test
 
 .PHONY: test-watch
 test-watch: ## Run tests in watch mode
-	$(COMPOSE) exec $(service) npm run test:watch
+	$(COMPOSE) exec $(service) bun run test:watch
 
 .PHONY: test-coverage
 test-coverage: start ## Run tests with coverage report
-	$(COMPOSE) exec $(service) npm run test:coverage
+	$(COMPOSE) exec $(service) bun run test:coverage
 
 .PHONY: lint
 lint: ## Run ESLint
-	$(COMPOSE) exec $(service) npm run lint
+	$(COMPOSE) exec $(service) bun run lint
 
 .PHONY: lint-fix
 lint-fix: ## Run ESLint with autofix
-	$(COMPOSE) exec $(service) npm run lint:fix
+	$(COMPOSE) exec $(service) bun run lint:fix
 
 .PHONY: format
 format: ## Format source with Prettier
-	$(COMPOSE) exec $(service) npm run format
+	$(COMPOSE) exec $(service) bun run format
 
 .PHONY: format-check
 format-check: ## Check formatting without writing changes
-	$(COMPOSE) exec $(service) npm run format:check
+	$(COMPOSE) exec $(service) bun run format:check
 
 ##@ Release
 

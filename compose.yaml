@@ -4,7 +4,7 @@ services:
     build:
       context: .
       target: build
-    command: sh -c "node src/migrate.js up && node --watch src/server.js"
+    command: sh -c "bun src/migrate.js up && bun --watch src/server.js"
     ports:
       - '5501:5501'
     env_file:

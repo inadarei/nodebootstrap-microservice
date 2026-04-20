@@ -9,7 +9,7 @@ already wired up.
 
 ## Stack
 
-- **Node.js 24** (ESM throughout, `node --watch`, `node --env-file`)
+- **Bun 1.x** (ESM throughout, `bun --watch`, auto-loads `.env`)
 - **Express 5** with `helmet`, `pino-http`, `express-rate-limit`
 - **PostgreSQL 17** via `pg` (pooled) with `umzug` for migrations
 - **`zod`** for runtime env + request validation
@@ -23,7 +23,7 @@ already wired up.
 
 - Docker + Docker Compose v2 (the `docker compose` plugin)
 - Make (optional — shortcut for the compose commands)
-- Node 24 if you want to run anything outside containers
+- [Bun](https://bun.com/docs/installation) ≥ 1.1 if you want to run anything outside containers (`make dev`, host-side `make test`)
 
 ## Quickstart
 
@@ -104,7 +104,7 @@ need them. Nothing is a module-global — tests can build their own app.
 a clear error.
 
 **Migrations.** SQL files live in `migrations/sqls/*.{up,down}.sql` and are
-tracked in a `schema_migrations` table. Run `npm run migrate` to apply them
+tracked in a `schema_migrations` table. Run `bun run migrate` to apply them
 (the container does this automatically on startup).
 
 **Health probes.** Two endpoints by Kubernetes convention:
