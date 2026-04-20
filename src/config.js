@@ -11,8 +11,6 @@ const schema = z.object({
   POSTGRES_USER: z.string().min(1),
   POSTGRES_PASSWORD: z.string().min(1),
   PG_POOL_MAX: z.coerce.number().int().positive().default(20),
-
-  BCRYPT_ROUNDS: z.coerce.number().int().min(4).max(15).default(12),
 });
 
 const parsed = schema.safeParse(process.env);

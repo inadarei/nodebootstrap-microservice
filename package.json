@@ -25,7 +25,6 @@
     "prepare": "simple-git-hooks || true"
   },
   "dependencies": {
-    "bcrypt": "^6.0.0",
     "express": "^5.2.1",
     "express-rate-limit": "^7.5.0",
     "helmet": "^8.0.0",

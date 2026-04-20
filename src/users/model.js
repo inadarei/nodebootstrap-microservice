@@ -1,5 +1,4 @@
-import bcrypt from 'bcrypt';
-import { config } from '#src/config.js';
+import { hashPassword } from '#src/users/password.js';
 
 export class UsersModel {
   constructor({ pool }) {
@@ -14,7 +13,7 @@ export class UsersModel {
   }
 
   async create({ email, password }) {
-    const passwordHash = await bcrypt.hash(password, config.BCRYPT_ROUNDS);
+    const passwordHash = await hashPassword(password);
     const { rows } = await this.pool.query(
       `INSERT INTO users (email, password_hash)
        VALUES ($1, $2)

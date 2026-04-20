@@ -31,7 +31,7 @@ describe('UsersModel (integration)', () => {
     const found = await model.findByEmail(email);
     expect(found).not.toBeNull();
     expect(found.password_hash).not.toBe('strong1');
-    expect(found.password_hash).toMatch(/^\$2[aby]\$/);
+    expect(found.password_hash).toMatch(/^scrypt\$[0-9a-f]+\$[0-9a-f]+$/);
 
     await pool.query('DELETE FROM users WHERE email = $1', [email]);
   });
