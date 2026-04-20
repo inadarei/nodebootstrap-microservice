@@ -15,16 +15,20 @@ const schema = z.object({
   PG_POOL_MAX: z.coerce.number().int().positive().default(20),
 });
 
-const parsed = schema.safeParse(process.env);
-
-if (!parsed.success) {
-  // eslint-disable-next-line no-console -- startup-only, logger not yet available
-  console.error('Invalid environment configuration:');
-  for (const issue of parsed.error.issues) {
-    // eslint-disable-next-line no-console -- startup-only, logger not yet available
-    console.error(`  - ${issue.path.join('.')}: ${issue.message}`);
+export function loadConfig(
+  env = process.env,
+  { exit = process.exit, log = console.error } = {},
+) {
+  const parsed = schema.safeParse(env);
+  if (!parsed.success) {
+    log('Invalid environment configuration:');
+    for (const issue of parsed.error.issues) {
+      log(`  - ${issue.path.join('.')}: ${issue.message}`);
+    }
+    exit(1);
+    return null;
   }
-  process.exit(1);
+  return Object.freeze(parsed.data);
 }
 
-export const config = Object.freeze(parsed.data);
+export const config = loadConfig();
