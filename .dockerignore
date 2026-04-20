@@ -1,5 +1,22 @@
-# Put files and paths here that shouldn't get into Docker
-npm-debug.log*
-
-# list of files that shouldn't be copied into the container
 node_modules
+npm-debug.log*
+.git
+.gitignore
+.github
+.claude
+.vscode
+.idea
+coverage
+.nyc_output
+*.log
+.env
+.env.*
+!.env.example
+test
+docs
+README.md
+CLAUDE.md
+.eslintrc*
+eslint.config.js
+.prettierrc
+.prettierignore

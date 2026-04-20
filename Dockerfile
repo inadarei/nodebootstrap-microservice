@@ -1,38 +1,31 @@
-# Alpine Linux-based, tiny Node container:
-FROM node:24-alpine as base
-
-ADD ./ /opt/app
+FROM node:24-alpine AS base
+RUN apk add --no-cache tini
 WORKDIR /opt/app
-
-USER root
-
-RUN rm -rf node_modules \
- && chown -R node /opt/app
-
-USER node
-
-
-FROM base as release
-
-USER root
-RUN npm install --only=production \
- #&& apk add --no-cache tini \
- && chown -R node /opt/app
-
-USER node
 ENV HOME_DIR=/opt/app \
     NODE_ENV=production \
     PORT=5501
+EXPOSE 5501
+ENTRYPOINT ["/sbin/tini", "--"]
 
-ENTRYPOINT ./shell/run-db-migraton.sh && node server.js
-
-
-
-FROM base as build
-
+# -----------------------------------------------------------------------------
+FROM base AS build
 USER root
-RUN npm install -g nodemon \
- && npm install \
+COPY --chown=node:node package.json package-lock.json* ./
+RUN npm install --include=dev \
  && chown -R node /opt/app
-
 USER node
+COPY --chown=node:node . .
+
+# -----------------------------------------------------------------------------
+FROM base AS release
+USER root
+COPY --chown=node:node package.json package-lock.json* ./
+RUN npm ci --omit=dev \
+ && chown -R node /opt/app
+USER node
+COPY --chown=node:node . .
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD wget --spider -q http://localhost:5501/livez || exit 1
+
+CMD ["sh", "-c", "node src/migrate.js up && node src/server.js"]

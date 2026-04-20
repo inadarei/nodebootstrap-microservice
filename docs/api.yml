@@ -1,17 +1,110 @@
-openapi: 3.0.0
+openapi: 3.1.0
 info:
-  title: Sample OpenAPI
-  description: |
-    API Spec for NodeBootstrap Microservice
-  version: 1.0.1
+  title: ms-nodebootstrap-example
+  description: Example microservice scaffold. Replace with your real API surface.
+  version: 0.0.0
 servers:
-  - url: http://api.example.com/v1
-    description: Production Server
+  - url: http://localhost:5501
+    description: Local dev
 paths:
+  /:
+    get:
+      summary: Service identity
+      responses:
+        '200':
+          description: Identity document
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  service: { type: string }
+  /livez:
+    get:
+      summary: Liveness probe
+      responses:
+        '200':
+          description: Process is alive
+          content:
+            application/health+json:
+              schema: { $ref: '#/components/schemas/Health' }
+  /readyz:
+    get:
+      summary: Readiness probe (checks Postgres)
+      responses:
+        '200':
+          description: Ready
+          content:
+            application/health+json:
+              schema: { $ref: '#/components/schemas/Health' }
+        '503':
+          description: Not ready
+          content:
+            application/health+json:
+              schema: { $ref: '#/components/schemas/Health' }
   /users:
     get:
-      summary: Get users
-
+      summary: List users
       responses:
-        '200':    # success response
-          description: Successful Response
+        '200':
+          description: Users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items: { $ref: '#/components/schemas/User' }
+    post:
+      summary: Create a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateUser' }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/User' }
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Errors' }
+        '409':
+          description: Email already registered
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Errors' }
+        '429':
+          description: Rate limit exceeded
+
+components:
+  schemas:
+    Health:
+      type: object
+      properties:
+        status: { type: string, enum: [pass, fail] }
+        details: { type: object, additionalProperties: true }
+    User:
+      type: object
+      properties:
+        uuid: { type: string, format: uuid }
+        email: { type: string, format: email }
+        created: { type: string, format: date-time }
+        last_updated: { type: string, format: date-time }
+    CreateUser:
+      type: object
+      required: [email, password]
+      properties:
+        email: { type: string, format: email }
+        password: { type: string, minLength: 5 }
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items: { type: string }

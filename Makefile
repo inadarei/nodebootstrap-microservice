@@ -1,80 +1,88 @@
 default: start
 
-project:=nb-demo
-service:=ms-nodebootstrap-example
-NODE_ENV?=dev
+project := nb-demo
+service := ms-nodebootstrap-example
+NODE_ENV ?= development
 COMMIT_HASH = $(shell git rev-parse --verify HEAD)
 
+COMPOSE = docker compose -p $(project)
+
 .PHONY: start
-start: 
-	docker-compose -p ${project} up -d
+start:
+	$(COMPOSE) up -d
 
 .PHONY: stop
-stop: 
-	docker-compose -p ${project} down
+stop:
+	$(COMPOSE) down
 
 .PHONY: restart
 restart: stop start
 
 .PHONY: logs
-logs: 
-	docker-compose -p ${project} logs -f ${service}
+logs:
+	$(COMPOSE) logs -f $(service)
 
 .PHONY: logs-db
-logs-db: 
-	docker-compose -p ${project} logs -f ${service}-db
+logs-db:
+	$(COMPOSE) logs -f $(service)-db
 
 .PHONY: ps
-ps: 
-	docker-compose -p ${project} ps
+ps:
+	$(COMPOSE) ps
 
 .PHONY: build
 build:
-	docker-compose -p ${project} build --no-cache
+	$(COMPOSE) build --no-cache
 
 .PHONY: clean
 clean: stop build start
 
-.PHONY: add
-add: install-package-in-container build
-
-.PHONY: install-package-in-container
-install-package-in-container:
-	docker-compose -p ${project} exec ${service} npm install -S ${package}
-
-.PHONY: add-dev
-add-dev: install-dev-package-in-container build
-
-.PHONY: install-dev-package-in-container
-install-dev-package-in-container: start
-	docker-compose -p ${project} exec ${service} npm install -D ${package}
-
-.PHONY: migration-create
-migration-create: start
-	docker-compose -p ${project} exec ${service} node_modules/db-migrate/bin/db-migrate create ${name} --sql-file
-
-.PHONY: migrate
-migrate: start
-	docker-compose -p ${project} exec ${service} node_modules/db-migrate/bin/db-migrate up -e ${NODE_ENV}
+.PHONY: watch
+watch:
+	$(COMPOSE) watch
 
 .PHONY: shell
 shell:
-	docker-compose -p ${project} exec ${service} sh
+	$(COMPOSE) exec $(service) sh
+
+.PHONY: add
+add:
+	$(COMPOSE) exec $(service) npm install -S $(package)
+
+.PHONY: add-dev
+add-dev:
+	$(COMPOSE) exec $(service) npm install -D $(package)
+
+.PHONY: migrate
+migrate:
+	$(COMPOSE) exec $(service) npm run migrate
+
+.PHONY: migrate-down
+migrate-down:
+	$(COMPOSE) exec $(service) npm run migrate:down
 
 .PHONY: test
 test: start test-exec
 
 .PHONY: test-exec
 test-exec:
-	docker-compose -p ${project} exec ${service} npm run test
+	$(COMPOSE) exec $(service) npm test
+
+.PHONY: test-coverage
+test-coverage: start
+	$(COMPOSE) exec $(service) npm run test:coverage
+
+.PHONY: lint
+lint:
+	$(COMPOSE) exec $(service) npm run lint
 
 .PHONY: lint-fix
-lint-fix: start
-	docker-compose -p ${project} exec ${service} npm run lint:fix
+lint-fix:
+	$(COMPOSE) exec $(service) npm run lint:fix
 
-.PHONY: test-cov
-test-cov:
-	docker-compose -p ${project} exec ${service} npm run test-cov
+.PHONY: format
+format:
+	$(COMPOSE) exec $(service) npm run format
 
 .PHONY: commit-hash
 commit-hash:
@@ -82,9 +90,9 @@ commit-hash:
 
 .PHONY: build-release
 build-release:
-	docker build --target release -t local/${service}:${COMMIT_HASH} .
+	docker build --target release -t local/$(service):$(COMMIT_HASH) .
 
 .PHONY: run-release
 run-release:
-	docker run -d --name ${service}_${COMMIT_HASH} -p :5501 local/${service}:${COMMIT_HASH}
-	docker logs -f ${service}_${COMMIT_HASH}
+	docker run -d --name $(service)_$(COMMIT_HASH) --env-file .env -p 5501:5501 local/$(service):$(COMMIT_HASH)
+	docker logs -f $(service)_$(COMMIT_HASH)

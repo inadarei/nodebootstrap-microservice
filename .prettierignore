@@ -1,0 +1,7 @@
+node_modules
+coverage
+.nyc_output
+docs/index.html
+package-lock.json
+CLAUDE.md
+.claude/
