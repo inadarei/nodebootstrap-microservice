@@ -1,5 +1,5 @@
 node_modules
-npm-debug.log*
+*.log
 .git
 .gitignore
 .github
@@ -8,15 +8,6 @@ npm-debug.log*
 .idea
 coverage
 .nyc_output
-*.log
 .env
 .env.*
 !.env.example
-test
-docs
-README.md
-CLAUDE.md
-.eslintrc*
-eslint.config.js
-.prettierrc
-.prettierignore

@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it } from 'bun:test';
 import { createPool } from '#src/db/index.js';
 import { UsersModel } from '#src/users/model.js';
 

@@ -1,0 +1,10 @@
+[test]
+preload = ["./test/support/setup.js"]
+coverage = true
+coverageReporter = ["text", "lcov"]
+coverageDir = "coverage"
+# Bun's built-in coverage tracks lines and functions; branch coverage
+# isn't reported separately. Thresholds apply to lines and functions.
+coverageThreshold = { line = 0.80, function = 0.80 }
+coverageSkipTestFiles = true
+coveragePathIgnorePatterns = ["src/migrate.js", "src/server.js"]
