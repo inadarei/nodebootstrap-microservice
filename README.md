@@ -14,14 +14,14 @@ already wired up.
 - **PostgreSQL 17** via `pg` (pooled) with `umzug` for migrations
 - **`zod`** for runtime env + request validation
 - **`pino`** for structured logging
-- **`bcrypt`** for password hashing
-- **`vitest`** for tests, **`supertest`** for HTTP assertions
+- **`node:crypto` scrypt** for password hashing
+- **`bun:test`** for tests, **`supertest`** for HTTP assertions
 - **ESLint 9** (flat config, `neostandard`) + **Prettier**
 - **Docker Compose v2** with `compose watch` for live sync
 
 ## Prerequisites
 
-- Docker + Docker Compose v2 (the `docker compose` plugin)
+- Docker (or Podman) + Docker Compose v2 (the `docker compose` plugin)
 - Make (optional — shortcut for the compose commands)
 - [Bun](https://bun.com/docs/installation) ≥ 1.1 if you want to run anything outside containers (`make dev`, host-side `make test`)
 
@@ -31,7 +31,7 @@ already wired up.
 cp .env.example .env
 make            # boots app + postgres; runs migrations automatically
 make logs       # tail app logs
-make test       # run the vitest suite against the live container
+make test       # run the bun:test suite against the live container
 make stop       # tear down
 ```
 
@@ -45,7 +45,7 @@ Service listens on `http://localhost:5501`.
 | GET    | `/livez`  | Kubernetes liveness probe                    |
 | GET    | `/readyz` | Readiness probe (cached Postgres ping, 10s)  |
 | GET    | `/users`  | List users                                   |
-| POST   | `/users`  | Create a user (zod-validated, bcrypt-hashed) |
+| POST   | `/users`  | Create a user (zod-validated, scrypt-hashed) |
 
 ## Common tasks
 
