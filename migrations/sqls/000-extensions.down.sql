@@ -1,0 +1,1 @@
+-- Extensions intentionally not dropped on migration rollback.

@@ -126,4 +126,15 @@ Temporary Items
 .apdisk
 
 .nyc_output
-package-lock.json
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Claude local settings
+.claude/settings.local.json
+
+# Coverage
+coverage/
+*.lcov
